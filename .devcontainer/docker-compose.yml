@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        working_dir: /app
+        volumes:
+            - "..:/app"
+        command: sleep infinity
+    
+    db:
+        image: postgres:15.1
+        restart: unless-stopped
+        network_mode: service:app
+        # volumes:
+        #     - "../docker/pg-data:/pg-data"
+        environment:
+            POSTGRES_PASSWORD: postgres
+            POSTGRES_USER: postgres
+            POSTGRES_DB: postgres
+
+    redis:
+        image: redis
+        restart: unless-stopped
+        network_mode: service:app
+        # volumes:
+        #     - "../docker/redis:/data"
