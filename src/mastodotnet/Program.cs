@@ -1,7 +1,7 @@
 using StackExchange.Redis;
 using Npgsql;
 
-namespace mastodotnet
+namespace Mastodotnet
 {
     public static class Program
     {
@@ -11,6 +11,13 @@ namespace mastodotnet
 
             var app = builder.Build();
 
+            app.MapGet("/", () => "Hello World!");
+
+            app.Run();
+        }
+
+        private static void CheckStatus()
+        {
             // check redis
             using (var redis = ConnectionMultiplexer.Connect(app.Configuration.GetConnectionString("Redis") ?? throw new InvalidOperationException()))
             {
@@ -31,11 +38,6 @@ namespace mastodotnet
                 {
                 }
             }
-
-            app.MapGet("/", () => "Hello World!");
-
-            app.Run();
-
         }
     }
 }
