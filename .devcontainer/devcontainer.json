@@ -14,5 +14,10 @@
         //"shd101wyy.markdown-preview-enhanced"
     ],
     "forwardPorts": [ 5000 ],
-    "shutdownAction": "stopCompose"
+	"shutdownAction": "stopCompose",
+	"portsAttributes": {
+		"5432": {
+			"label": "postgresql"
+		}
+	}
 }
