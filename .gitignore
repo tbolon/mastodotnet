@@ -1,3 +1,6 @@
 bin/
 obj/
 docker/
+.dns/*.conf
+.dns/*.csr
+.dns/*.srl
