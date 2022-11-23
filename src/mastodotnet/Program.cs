@@ -12,7 +12,7 @@ namespace mastodotnet
             var app = builder.Build();
 
             // check redis
-            using (var redis = ConnectionMultiplexer.Connect("localhost"))
+            using (var redis = ConnectionMultiplexer.Connect(app.Configuration.GetConnectionString("Redis") ?? throw new InvalidOperationException()))
             {
                 var db = redis.GetDatabase();
                 db.StringSet("warmup", DateTimeOffset.UtcNow.ToString());
@@ -20,9 +20,10 @@ namespace mastodotnet
             }
 
             // check database
-            using (var conn = new NpgsqlConnection("Host=localhost;Username=postgres;Password=postgres;Database=postgres"))
+            using (var conn = new NpgsqlConnection(app.Configuration.GetConnectionString("Db")))
             using (var cmd = conn.CreateCommand())
             {
+                conn.Open();
                 cmd.CommandText = "select * from pg_catalog.pg_tables;";
 
                 using var reader = cmd.ExecuteReader();
